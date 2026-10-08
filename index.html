@@ -1,0 +1,59 @@
+---
+layout: default
+title: Projects, prototypes & field notes
+description: A working index of HackHubAfrica hardware, software, and shared technical notes.
+---
+<div class="page-shell">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow">An open workshop for useful technology</p>
+      <h1 id="hero-title">Ideas become <span>things.</span></h1>
+      <p class="hero-intro">HackHubAfrica is a home for the builds in progress, the work that shipped, and the notes that make the next attempt better.</p>
+    </div>
+    <aside class="hero-note" aria-label="Current focus">
+      <p class="meta-label">The workbench</p>
+      <p>Embedded systems, connected tools, and practical engineering.</p>
+      <span>Design openly. Document the details. Leave a useful trail.</span>
+    </aside>
+  </section>
+
+  {% assign ongoing = site.projects | where_exp: 'project', "project.status == 'active' or project.status == 'prototyping'" | sort: 'title' %}
+  {% assign completed = site.projects | where: 'status', 'completed' | sort: 'title' %}
+  <section class="section" id="projects" aria-labelledby="projects-title">
+    <div class="section-heading">
+      <div><p class="section-kicker">From first sketch to field test</p><h2 id="projects-title">Project board</h2></div>
+      <p class="section-count"><strong>{{ site.projects.size }}</strong> tracked projects</p>
+    </div>
+    <div class="project-group">
+      <div class="group-heading"><h3>On the bench</h3><span>{{ ongoing.size }} active / prototyping</span></div>
+      {% if ongoing.size > 0 %}
+        <div class="project-grid">{% for project in ongoing %}{% include project-card.html project=project %}{% endfor %}</div>
+      {% else %}
+        <p class="empty-note">Nothing on the bench yet. Add a Markdown file under <code>_projects/</code>.</p>
+      {% endif %}
+    </div>
+    <div class="project-group">
+      <div class="group-heading"><h3>Built &amp; documented</h3><span>{{ completed.size }} completed</span></div>
+      {% if completed.size > 0 %}
+        <div class="project-grid">{% for project in completed %}{% include project-card.html project=project %}{% endfor %}</div>
+      {% else %}
+        <p class="empty-note">Finished work will collect here, with build notes and links back to the source.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  {% assign handbook = site.handbook | sort: 'order' %}
+  <section class="handbook-section" id="handbook" aria-labelledby="handbook-title">
+    <div class="handbook-intro">
+      <p class="section-kicker">Shared notes, fewer dead ends</p>
+      <h2 id="handbook-title">Documentation shelf</h2>
+      <p>Setup guides and references gathered alongside the builds.</p>
+      <a class="archive-link" href="{{ '/docs/' | relative_url }}">Browse the existing knowledge archive ↗</a>
+    </div>
+    <nav class="handbook-list" aria-label="Documentation">
+      {% for doc in handbook %}
+        <a href="{{ doc.url | relative_url }}"><span>{{ doc.category | escape }}</span><strong>{{ doc.title | escape }}</strong><span class="arrow" aria-hidden="true">↗</span></a>
+      {% endfor %}
+    </nav>
+  </section>
+</div>

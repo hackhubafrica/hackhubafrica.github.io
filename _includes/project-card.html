@@ -1,0 +1,15 @@
+<article class="project-card">
+  <div class="card-topline">
+    <span class="status status-{{ include.project.status | escape }}">{{ include.project.status | replace: 'prototyping', 'Prototyping' | capitalize }}</span>
+    {% if include.project.starter %}<span class="starter-label">Starter example</span>{% endif %}
+  </div>
+  <h3><a href="{{ include.project.url | relative_url }}">{{ include.project.title | escape }}</a></h3>
+  <p class="card-summary">{{ include.project.summary | escape }}</p>
+  <div class="card-bottom">
+    <div class="tag-list">
+      <span class="tag">{{ include.project.category | escape }}</span>
+      {% for item in include.project.tech %}<span class="tag">{{ item | escape }}</span>{% endfor %}
+    </div>
+    <a class="card-link" href="{{ include.project.url | relative_url }}">Project notes ↗</a>
+  </div>
+</article>

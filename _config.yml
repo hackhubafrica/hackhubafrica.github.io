@@ -1,0 +1,40 @@
+title: HackHubAfrica
+description: Projects, prototypes, and technical notes from HackHubAfrica.
+url: https://hackhubafrica.github.io
+baseurl: ''
+theme: minima
+markdown: kramdown
+permalink: pretty
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+  handbook:
+    output: true
+    permalink: /handbook/:path/
+
+defaults:
+  - scope:
+      path: ''
+      type: projects
+    values:
+      layout: project
+  - scope:
+      path: ''
+      type: handbook
+    values:
+      layout: doc
+
+exclude:
+  - .astro
+  - node_modules
+  - dist
+  - src
+  - package.json
+  - package-lock.json
+  - astro.config.mjs
+  - tsconfig.json
+  - Gemfile
+  - Gemfile.lock
+  - vendor

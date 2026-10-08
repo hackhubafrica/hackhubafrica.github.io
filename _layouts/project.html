@@ -1,0 +1,19 @@
+---
+layout: default
+---
+<article class="page-shell detail-page">
+  <header class="detail-heading">
+    <p class="eyebrow">Project file / {{ page.category | escape }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <p class="detail-summary">{{ page.summary | escape }}</p>
+    {% if page.starter %}<p class="starter-note">Illustrative starter record · replace with verified project details</p>{% endif %}
+    <div class="detail-meta">
+      <span class="status status-{{ page.status | escape }}">{{ page.status | capitalize }}</span>
+      {% if page.start_date %}<span>Started {{ page.start_date | escape }}</span>{% endif %}
+      {% if page.github_repo %}<a href="{{ page.github_repo | escape }}" target="_blank" rel="noreferrer">Source repository ↗</a>{% endif %}
+      <div class="tag-list">{% for item in page.tech %}<span class="tag">{{ item | escape }}</span>{% endfor %}</div>
+    </div>
+  </header>
+  <div class="prose">{{ content }}</div>
+  <a class="back-link" href="{{ '/' | relative_url }}#projects">← Back to projects</a>
+</article>

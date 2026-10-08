@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<article class="page-shell detail-page">
+  <header class="detail-heading">
+    <p class="eyebrow">Field notes / {{ page.category | escape }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    <p class="detail-summary">{{ page.summary | escape }}</p>
+    {% if page.starter %}<p class="starter-note">Starter documentation · verify against the relevant project and datasheets</p>{% endif %}
+  </header>
+  <div class="prose">{{ content }}</div>
+  <a class="back-link" href="{{ '/' | relative_url }}#handbook">← Back to documentation</a>
+</article>
