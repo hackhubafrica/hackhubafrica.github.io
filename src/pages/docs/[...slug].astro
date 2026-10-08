@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const docs = await getCollection('docs');
+	return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const { title, category, summary, starter } = doc.data;
+---
+
+<BaseLayout title={title} description={summary}>
+	<div class="page-shell">
+		<header class="page-title">
+			<p class="eyebrow">Field notes / {category}</p>
+			<h1>{title}</h1>
+			<p class="lead">{summary}</p>
+			{starter && <p class="starter-callout">Starter documentation · verify against your project hardware and software</p>}
+		</header>
+		<article class="prose"><Content /></article>
+		<a class="back-link" href="/#documentation">← Back to documentation</a>
+	</div>
+</BaseLayout>

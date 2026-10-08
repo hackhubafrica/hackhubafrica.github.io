@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = await getCollection('projects');
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+const ongoing = projects.filter(({ data }) => ['active', 'prototyping'].includes(data.status));
+const completed = projects.filter(({ data }) => data.status === 'completed');
+
+function statusLabel(status: string) {
+	return status === 'active' ? 'Active' : status === 'prototyping' ? 'Prototyping' : status;
+}
+---
+
+<BaseLayout
+	title="Projects, prototypes & field notes"
+	description="A working index of HackHubAfrica hardware, software, and shared technical notes."
+>
+	<div class="page-shell">
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="hero-copy">
+				<p class="eyebrow">An open workshop for useful technology</p>
+				<h1 id="hero-title">Ideas become <span>things.</span></h1>
+				<p class="hero-intro">HackHubAfrica is a home for the builds in progress, the work that shipped, and the notes that make the next attempt better.</p>
+			</div>
+			<aside class="hero-note" aria-label="Current focus">
+				<p class="meta-label">The workbench</p>
+				<p>Embedded systems, connected tools, and practical engineering.</p>
+				<p class="note-sub">Design openly. Document the details. Leave a useful trail.</p>
+			</aside>
+		</section>
+
+		<section class="section" id="projects" aria-labelledby="projects-title">
+			<div class="section-heading">
+				<div>
+					<p class="section-kicker">From first sketch to field test</p>
+					<h2 id="projects-title">Project board</h2>
+				</div>
+				<p class="section-count"><strong>{projects.length}</strong> tracked {projects.length === 1 ? 'project' : 'projects'}</p>
+			</div>
+
+			<div class="project-group">
+				<div class="project-group-heading">
+					<h3>On the bench</h3>
+					<span class="section-count">{ongoing.length} active / prototyping</span>
+				</div>
+				{ongoing.length ? (
+					<div class="project-grid">
+						{ongoing.map(({ id, data }) => (
+							<article class="project-row">
+								<div class="project-topline">
+									<span class:list={['status-label', `status-${data.status}`]}>{statusLabel(data.status)}</span>
+									{data.starter && <span class="starter-label">Starter example</span>}
+								</div>
+								<h3><a href={`/projects/${id}/`}>{data.title}</a></h3>
+								<p class="summary">{data.summary}</p>
+								<div class="project-footer">
+									<div class="tag-list"><span class="tag">{data.category}</span>{data.tech.map((item) => <span class="tag">{item}</span>)}</div>
+									<a class="project-link" href={`/projects/${id}/`}>Project notes ↗</a>
+								</div>
+							</article>
+						))}
+					</div>
+				) : (
+					<p class="empty-note">Nothing on the bench yet. Add a Markdown file under <code>src/content/projects/</code> to start a project record.</p>
+				)}
+			</div>
+
+			<div class="project-group">
+				<div class="project-group-heading">
+					<h3>Built &amp; documented</h3>
+					<span class="section-count">{completed.length} completed</span>
+				</div>
+				{completed.length ? (
+					<div class="project-grid">
+						{completed.map(({ id, data }) => (
+							<article class="project-row">
+								<div class="project-topline">
+									<span class="status-label status-completed">Completed</span>
+									{data.starter && <span class="starter-label">Starter example</span>}
+								</div>
+								<h3><a href={`/projects/${id}/`}>{data.title}</a></h3>
+								<p class="summary">{data.summary}</p>
+								<div class="project-footer">
+									<div class="tag-list"><span class="tag">{data.category}</span>{data.tech.map((item) => <span class="tag">{item}</span>)}</div>
+									<a class="project-link" href={`/projects/${id}/`}>Project notes ↗</a>
+								</div>
+							</article>
+						))}
+					</div>
+				) : (
+					<p class="empty-note">Finished work will collect here, with build notes and links back to the source.</p>
+				)}
+			</div>
+		</section>
+
+		<section class="docs-section" id="documentation" aria-labelledby="docs-title">
+			<div class="docs-intro">
+				<p class="section-kicker">Shared notes, fewer dead ends</p>
+				<h2 id="docs-title">Documentation shelf</h2>
+				<p>Pinouts, setup guides, and references gathered alongside the builds. Made to be updated as the work changes.</p>
+			</div>
+			<nav class="docs-list" aria-label="Documentation">
+				{docs.map(({ id, data }) => (
+					<a class="doc-link" href={`/docs/${id}/`}>
+						<span class="doc-category">{data.category}</span>
+						<span class="doc-title">{data.title}{data.starter && <span class="starter-label"> · starter</span>}</span>
+						<span class="doc-arrow" aria-hidden="true">↗</span>
+					</a>
+				))}
+			</nav>
+		</section>
+	</div>
+</BaseLayout>
