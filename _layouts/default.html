@@ -6,6 +6,8 @@
     <meta name="description" content="{{ page.description | default: site.description | escape }}">
     <title>{% if page.title %}{{ page.title | escape }} | {% endif %}{{ site.title | escape }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+
+    
   </head>
   <body>
     <header class="site-header">
@@ -27,7 +29,51 @@
         <span>HACKHUB<span class="brand-light">AFRICA</span></span>
       </a>
       <span>Make things. Share what works.</span>
-      <a href="https://github.com/hackhubafrica" target="_blank" rel="noreferrer">Open source on GitHub ↗</a>
+      <nav class="footer-socials" aria-label="Social links">
+        {% for social in site.social_links %}
+          <a href="{{ social.url | escape }}" target="_blank" rel="me noreferrer">{{ social.label | escape }} <span aria-hidden="true">↗</span></a>
+        {% endfor %}
+      </nav>
     </footer>
+        <script>
+            document.querySelectorAll("pre > code").forEach((codeBlock) => {
+            const button = document.createElement("button");
+            button.className = "copy-code-button";
+            button.type = "button";
+            button.innerText = "Copy";
+
+            const pre = codeBlock.parentNode;
+            pre.style.position = "relative";
+            pre.appendChild(button);
+
+            button.addEventListener("click", () => {
+                navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+                button.innerText = "Copied!";
+                setTimeout(() => {
+                    button.innerText = "Copy";
+                }, 2000);
+                });
+            });
+            });
+        </script>
+
+        <style>
+        .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #334155;
+        color: #f8fafc;
+        border: 1px solid #475569;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: background 0.2s;
+        }
+        .copy-code-button:hover {
+        background: #475569;
+        }
+        </style>
   </body>
 </html>

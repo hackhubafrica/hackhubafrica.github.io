@@ -3,7 +3,7 @@ _site/
 .jekyll-cache/
 .sass-cache/
 .bundle/
-
+.obsidian
 # Astro workspace files from the separate master branch
 .astro/
 node_modules/

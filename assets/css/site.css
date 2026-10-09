@@ -77,7 +77,11 @@ h1, h2, h3, p { margin-top: 0; }
 .handbook-list strong { font-size: 13px; font-weight: 500; }
 .handbook-list .arrow { color: var(--orange); text-align: right; }
 .site-footer { min-height: 90px; font-size: 10px; }
-.site-footer > span, .site-footer a:last-child { color: var(--muted); font: 9px var(--mono); }
+.site-footer > span { color: var(--muted); font: 9px var(--mono); }
+.footer-socials { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.footer-socials a { color: var(--muted); font: 9px var(--mono); white-space: nowrap; }
+.footer-socials a span { color: var(--orange); }
+.footer-socials a:hover { color: var(--forest); }
 .detail-page { padding-top: 52px; padding-bottom: 65px; }
 .detail-heading { padding-bottom: 30px; border-bottom: 1px solid var(--line); }
 .detail-heading h1 { max-width: 850px; margin: 8px 0 14px; font-size: 56px; line-height: 1.02; }
@@ -85,6 +89,10 @@ h1, h2, h3, p { margin-top: 0; }
 .starter-note { margin: 15px 0 0; font: 9px var(--mono); text-transform: uppercase; }
 .detail-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 21px; font: 10px var(--mono); }
 .detail-meta .tag-list { margin-left: auto; }
+.doc-siblings { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; max-width: 760px; padding: 14px 0; border-bottom: 1px solid var(--line); font: 10px var(--mono); }
+.doc-siblings strong { color: var(--muted); font-weight: 400; text-transform: uppercase; }
+.doc-siblings a { color: var(--forest); }
+.doc-siblings a:hover { color: var(--orange); }
 .prose { max-width: 760px; padding: 35px 0 25px; font-size: 14px; line-height: 1.8; }
 .prose h2 { margin: 2em 0 .5em; font-size: 24px; line-height: 1.2; }
 .prose h3 { margin: 1.6em 0 .5em; font-size: 18px; }
@@ -108,6 +116,17 @@ h1, h2, h3, p { margin-top: 0; }
   .detail-meta .tag-list { flex-basis: 100%; margin-left: 0; }
   .site-footer { min-height: 110px; flex-wrap: wrap; justify-content: flex-start; padding-block: 17px; }
   .site-footer > span { margin-left: auto; }
-  .site-footer a:last-child { flex-basis: 100%; }
+  .footer-socials { flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+/* 1. Set a clean, solid dark background for the entire code block */
+pre, .highlight {
+  background-color: #0f172a !important;
+  color: #6547a1 !important;
+}
+
+/* 2. Strip away all background boxes from individual words/tokens */
+pre code span, .highlight span {
+  background-color: transparent !important;
+}

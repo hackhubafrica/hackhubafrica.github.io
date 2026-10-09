@@ -8,6 +8,24 @@ layout: default
     <p class="detail-summary">{{ page.summary | escape }}</p>
     {% if page.starter %}<p class="starter-note">Starter documentation · verify against the relevant project and datasheets</p>{% endif %}
   </header>
+  {% if page.url contains '/docs/' %}
+    {% assign siblings = site.pages | where: 'dir', page.dir | sort: 'title' %}
+    {% assign sibling_count = siblings.size %}
+    {% if sibling_count > 1 %}
+    <nav class="doc-siblings" aria-label="Pages in this folder">
+      <strong>In this folder</strong>
+      {% for sibling in siblings %}{% unless sibling.url == page.url %}<a href="{{ sibling.url | relative_url }}">{{ sibling.title | default: sibling.name | escape }}</a>{% endunless %}{% endfor %}
+    </nav>
+    {% endif %}
+  {% elsif page.url contains '/handbook/' %}
+    {% assign related_handbook = site.handbook | where: 'category', page.category | sort: 'order' %}
+    {% if related_handbook.size > 1 %}
+    <nav class="doc-siblings" aria-label="Related handbook pages">
+      <strong>Related {{ page.category | escape }} notes</strong>
+      {% for sibling in related_handbook %}{% unless sibling.url == page.url %}<a href="{{ sibling.url | relative_url }}">{{ sibling.title | escape }}</a>{% endunless %}{% endfor %}
+    </nav>
+    {% endif %}
+  {% endif %}
   <div class="prose">{{ content }}</div>
   <a class="back-link" href="{{ '/' | relative_url }}#handbook">← Back to documentation</a>
 </article>
