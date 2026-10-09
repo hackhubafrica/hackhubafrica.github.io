@@ -17,7 +17,9 @@ description: A working index of HackHubAfrica hardware, software, and shared tec
     </aside>
   </section>
 
-  {% assign ongoing = site.projects | where_exp: 'project', "project.status == 'active' or project.status == 'prototyping'" | sort: 'title' %}
+  {% assign active_projects = site.projects | where: 'status', 'active' %}
+  {% assign prototype_projects = site.projects | where: 'status', 'prototyping' %}
+  {% assign ongoing = active_projects | concat: prototype_projects | sort: 'title' %}
   {% assign completed = site.projects | where: 'status', 'completed' | sort: 'title' %}
   <section class="section" id="projects" aria-labelledby="projects-title">
     <div class="section-heading">
